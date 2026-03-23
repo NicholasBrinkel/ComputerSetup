@@ -1,0 +1,15 @@
+{
+    "name": "Neovim",
+    "description": "My preferred terminal editor",
+    "formulas": ["neovim", "ripgrep", "fd", "xcbeautify", "xcp", "xcode-build-server", "coreutils"],
+    "casks": [],
+    "exports": {
+        "EDITOR": "nvim"
+    },
+    "shell_configs": [
+        "alias vi=nvim"
+    ],
+    "commands": {},
+    "system_settings": [],
+    "post-install-setup-script": "neovim-setup.sh"
+}

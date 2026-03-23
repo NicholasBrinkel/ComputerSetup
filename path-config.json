@@ -1,13 +1,14 @@
 {
   "exports": {
     "values": {
-      "EDITOR": "nvim",
-      "VISUAL": "code"
+      "VISUAL": "code",
+      "EDITOR": "nvim"
     }
   },
   "shell_configs": {
     "values": [
-      "alias gs='git status'"
+      "alias gs='git status'",
+      "alias vi=nvim"
     ]
   },
   "commands": {
