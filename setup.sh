@@ -16,28 +16,35 @@ Commands:
 EOF
 }
 
+run_sync() {
+    source "${SCRIPT_DIR}/lib/logging.sh"
+    source "${SCRIPT_DIR}/lib/colors.sh"
+
+    info "Sourcing ~/.computer-setup from ~/.zshrc and ~/.bashrc"
+
+    source "${SCRIPT_DIR}/apply-custom-system-settings.sh"
+    source "${SCRIPT_DIR}/brew-apps.sh"
+
+    banner "Computer Setup Sync"
+
+    configure_system
+    install_brew_apps
+    "${SCRIPT_DIR}/add-to-path.sh"
+
+    success "Sync complete"
+}
+
 case "${1:-}" in
     add)
         "${SCRIPT_DIR}/add.sh" "${2:-}"
         ;;
-    sync)
-        source "${SCRIPT_DIR}/lib/logging.sh"
-        source "${SCRIPT_DIR}/lib/colors.sh"
-        source "${SCRIPT_DIR}/apply-custom-system-settings.sh"
-        source "${SCRIPT_DIR}/brew-apps.sh"
-
-        banner "Computer Setup Sync"
-
-        configure_system
-        install_brew_apps
-        "${SCRIPT_DIR}/add-to-path.sh"
-
-        success "Sync complete"
+    sync|"")
+        run_sync
         ;;
     test)
         "${SCRIPT_DIR}/tests/test-runner.sh"
         ;;
-    help|--help|-h|"")
+    help|--help|-h)
         usage
         ;;
     *)

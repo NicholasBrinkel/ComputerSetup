@@ -24,27 +24,48 @@ add_to_config() {
     case "$intent" in
         Brew-Cask)
             config_file="brew-config.json"
-            "${SCRIPT_DIR}/lib/add-brew-cask.sh" "$value" && added=true
+            if "${SCRIPT_DIR}/lib/add-brew-cask.sh" "$value"; then
+                added=true
+                info "Installing cask: $value"
+                brew install --cask "$value"
+            fi
             ;;
         Brew-Formula)
             config_file="brew-config.json"
-            "${SCRIPT_DIR}/lib/add-brew-formula.sh" "$value" && added=true
+            if "${SCRIPT_DIR}/lib/add-brew-formula.sh" "$value"; then
+                added=true
+                info "Installing formula: $value"
+                brew install "$value"
+            fi
             ;;
         System-Setting)
             config_file="system-config.json"
-            "${SCRIPT_DIR}/lib/add-system-setting.sh" "$value" && added=true
+            if "${SCRIPT_DIR}/lib/add-system-setting.sh" "$value"; then
+                added=true
+                info "Applying system setting: $value"
+                eval "$value"
+            fi
             ;;
         Env-Variable)
             config_file="path-config.json"
-            "${SCRIPT_DIR}/lib/add-env-variable.sh" "$value" && added=true
+            if "${SCRIPT_DIR}/lib/add-env-variable.sh" "$value"; then
+                added=true
+                "${SCRIPT_DIR}/add-to-path.sh"
+            fi
             ;;
         Shell-Config)
             config_file="path-config.json"
-            "${SCRIPT_DIR}/lib/add-shell-config.sh" "$value" && added=true
+            if "${SCRIPT_DIR}/lib/add-shell-config.sh" "$value"; then
+                added=true
+                "${SCRIPT_DIR}/add-to-path.sh"
+            fi
             ;;
         Command)
             config_file="path-config.json"
-            "${SCRIPT_DIR}/lib/add-command.sh" "$input" && added=true
+            if "${SCRIPT_DIR}/lib/add-command.sh" "$input"; then
+                added=true
+                "${SCRIPT_DIR}/add-to-path.sh"
+            fi
             ;;
         *)
             echo "Error: Unknown intent: $intent" >&2
@@ -56,6 +77,10 @@ add_to_config() {
         jq -n --arg intent "$intent" --arg value "$value" --arg file "$config_file" \
             '{"intent": $intent, "value": $value, "file": $file}'
     fi
+}
+
+info() {
+    echo "[INFO] $1"
 }
 
 add_to_config "${1:-}"

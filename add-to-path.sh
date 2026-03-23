@@ -18,25 +18,25 @@ add_to_shell_config() {
 
     while IFS= read -r line; do
         [[ -n "$line" ]] && echo "$line" >> "$SETUP_FILE"
-    done < <(jq -r '.shell_configs.values[] // []' "$CONFIG_FILE" 2>/dev/null)
+    done < <(jq -r '.shell_configs.values[]' "$CONFIG_FILE" 2>/dev/null)
 
     while IFS='=' read -r cmd script; do
         [[ -z "$cmd" ]] && continue
-        echo "${cmd}() { \"${SCRIPT_DIR}/${script}\" \"\$@\"; }" >> "$SETUP_FILE"
+        local expanded_script="${script//\{SCRIPT_DIR\}/$SCRIPT_DIR}"
+        echo "${cmd}() { \"${expanded_script}\" \"\$@\"; }" >> "$SETUP_FILE"
     done < <(jq -r '.commands.values // {} | to_entries[] | "\(.key)=\(.value)"' "$CONFIG_FILE" 2>/dev/null)
 
     echo "" >> "$SETUP_FILE"
     echo "# End ComputerSetup" >> "$SETUP_FILE"
 
-    add_source_to_rc
+    add_source_to_rc "$HOME/.zshrc"
+    add_source_to_rc "$HOME/.bashrc"
 
     echo "Created $SETUP_FILE with your configuration"
-    echo "Restart your terminal or run: source ~/.zshrc"
 }
 
 add_source_to_rc() {
-    local rc_file="$HOME/.zshrc"
-    [[ -n "${BASH_VERSION:-}" ]] && rc_file="$HOME/.bashrc"
+    local rc_file="${1:-}"
 
     local source_line="source ~/.computer-setup"
     local section_header="# ComputerSetup"

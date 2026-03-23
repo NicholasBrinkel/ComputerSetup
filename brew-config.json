@@ -1,11 +1,11 @@
 {
-    "casks": [
-    ],
-    "formulas": [
-        "git",
-        "python@3.11",
-        "gh",
-        "zsh-autosuggestions",
-        "zsh-syntax-highlighting"
-    ]
+  "casks": [],
+  "formulas": [
+    "git",
+    "python@3.11",
+    "gh",
+    "zsh-autosuggestions",
+    "zsh-syntax-highlighting",
+    "neovim"
+  ]
 }
