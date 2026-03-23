@@ -1,0 +1,25 @@
+{
+    "name": "Example App",
+    "description": "A comprehensive example showing all available config fields. Copy this file to configs/enabled/ to use it.",
+    "author": "optional - who created this config",
+    "settings": {
+        "formulas": [
+            "neovim"
+        ],
+        "casks": [
+            "firefox"
+        ],
+        "exports": {
+            "EDITOR": "nvim"
+        },
+        "shell_configs": [
+            "alias ll='ls -la'"
+        ],
+        "commands": {
+            "greet": "scripts/hello.sh"
+        },
+        "system_settings": [
+            "defaults write com.apple.finder AppleShowAllFiles YES"
+        ]
+    }
+}

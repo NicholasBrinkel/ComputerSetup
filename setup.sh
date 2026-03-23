@@ -9,6 +9,7 @@ Usage: setup <command>
 
 Commands:
     add <input>      Add a config from user input
+    config <name>    Create a new app config
     sync            Sync all configs (install brew apps, apply system settings, update ~/.computer-setup)
     test            Run all tests
     help            Show this help message
@@ -30,6 +31,7 @@ run_sync() {
     configure_system
     install_brew_apps
     "${SCRIPT_DIR}/add-to-path.sh"
+    "${SCRIPT_DIR}/scripts/sync-app-configs.sh"
 
     success "Sync complete"
 }
@@ -37,6 +39,9 @@ run_sync() {
 case "${1:-}" in
     add)
         "${SCRIPT_DIR}/add.sh" "${2:-}"
+        ;;
+    config)
+        "${SCRIPT_DIR}/scripts/config.sh" "${2:-}"
         ;;
     sync|"")
         run_sync
