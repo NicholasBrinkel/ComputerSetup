@@ -1,10 +1,18 @@
 {
-    "exports": {},
-    "shell_configs": [],
-    "commands": {},
+    "exports": {
+        "values": {}
+    },
+    "shell_configs": {
+        "values": []
+    },
+    "commands": {
+        "values": {
+            "setup": "{SCRIPT_DIR}/setup.sh"
+        }
+    },
 
     "commands_EXAMPLE": {
-        "comment": "Commands create aliases/functions that invoke scripts. Key is the command you type in terminal, Value is the path to the script (relative to repo root). Example: 'greet' would let you type 'greet' in terminal and it runs scripts/hello.sh",
+        "comment": "Commands create aliases/functions that invoke scripts. Key is the command you type in terminal, Value is the path to the script (relative to repo root). Example: 'greet' would let you type 'greet' in terminal and it runs scripts/hello.sh. Args are passed through.",
         "values": {
             "greet": "scripts/hello.sh",
             "deploy": "scripts/deploy.sh"

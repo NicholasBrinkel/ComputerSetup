@@ -23,16 +23,16 @@ add_to_shell_config() {
     echo "" >> "$rc_file"
     echo "$section_header" >> "$rc_file"
 
-    jq --arg script_dir "$SCRIPT_DIR" -r '.exports // {} | to_entries[] | "export \(.key)=\(.value | gsub("\\{SCRIPT_DIR\\}"; $script_dir))"' "$CONFIG_FILE" >> "$rc_file"
+    jq --arg script_dir "$SCRIPT_DIR" -r '.exports.values // {} | to_entries[] | "export \(.key)=\(.value | gsub("\\{SCRIPT_DIR\\}"; $script_dir))"' "$CONFIG_FILE" >> "$rc_file"
 
     while IFS= read -r line; do
         [[ -n "$line" ]] && echo "$line" >> "$rc_file"
-    done < <(jq -r '.shell_configs[] // []' "$CONFIG_FILE" 2>/dev/null)
+    done < <(jq -r '.shell_configs.values[] // []' "$CONFIG_FILE" 2>/dev/null)
 
     while IFS='=' read -r cmd script; do
         [[ -z "$cmd" ]] && continue
         echo "${cmd}() { \"${SCRIPT_DIR}/${script}\" \"\$@\"; }" >> "$rc_file"
-    done < <(jq -r '.commands // {} | to_entries[] | "\(.key)=\(.value)"' "$CONFIG_FILE" 2>/dev/null)
+    done < <(jq -r '.commands.values // {} | to_entries[] | "\(.key)=\(.value)"' "$CONFIG_FILE" 2>/dev/null)
 
     echo "Added configuration to $rc_file"
     echo "Restart your terminal or run: source $rc_file"

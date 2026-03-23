@@ -1,0 +1,8 @@
+{
+  "brew install firefox": {"intent": "Brew-Cask", "value": "firefox"},
+  "brew install git": {"intent": "Brew-Formula", "value": "git"},
+  "export PATH=/usr/local/bin": {"intent": "Env-Variable", "value": "export PATH=/usr/local/bin"},
+  "alias ll='ls -la'": {"intent": "Shell-Config", "value": "alias ll='ls -la'"},
+  "defaults write com.apple.finder AppleShowAllFiles YES": {"intent": "System-Setting", "value": "defaults write com.apple.finder AppleShowAllFiles YES"},
+  "foobarbaznotacommand": {"intent": "Invalid", "value": ""}
+}

@@ -3,23 +3,31 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-main() {
-    source "${SCRIPT_DIR}/lib/logging.sh"
-    source "${SCRIPT_DIR}/lib/colors.sh"
+usage() {
+    cat <<EOF
+Usage: setup <command>
 
-    info "Configuring PATH and commands..."
-    source "${SCRIPT_DIR}/add-to-path.sh"
+Commands:
+    add <input>      Add a config from user input
+    test            Run all tests
+    help            Show this help message
 
-    banner "Computer Setup"
-
-    source "${SCRIPT_DIR}/install-brew.sh"
-    install_brew || true
-
-    source "${SCRIPT_DIR}/brew-apps.sh"
-    install_brew_apps
-
-    source "${SCRIPT_DIR}/apply-custom-system-settings.sh"
-    configure_system
+EOF
 }
 
-main "$@"
+case "${1:-}" in
+    add)
+        "${SCRIPT_DIR}/add.sh" "${2:-}"
+        ;;
+    test)
+        "${SCRIPT_DIR}/tests/test-runner.sh"
+        ;;
+    help|--help|-h|"")
+        usage
+        ;;
+    *)
+        echo "Unknown command: $1"
+        usage
+        exit 1
+        ;;
+esac
