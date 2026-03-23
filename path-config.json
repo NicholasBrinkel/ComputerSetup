@@ -1,0 +1,26 @@
+{
+    "exports": {},
+    "shell_configs": [],
+    "commands": {},
+
+    "commands_EXAMPLE": {
+        "comment": "Commands create aliases/functions that invoke scripts. Key is the command you type in terminal, Value is the path to the script (relative to repo root). Example: 'greet' would let you type 'greet' in terminal and it runs scripts/hello.sh",
+        "values": {
+            "greet": "scripts/hello.sh",
+            "deploy": "scripts/deploy.sh"
+        }
+    },
+    "exports_EXAMPLE": {
+        "comment": "Exports add environment variables to your shell. Available variables: {SCRIPT_DIR} is replaced with the repo path. Example sets MY_VAR to a custom path.",
+        "values": {
+            "MY_VAR": "\"{SCRIPT_DIR}/my/path\""
+        }
+    },
+    "shell_configs_EXAMPLE": {
+        "comment": "Shell configs add raw lines to your .zshrc/.bashrc. Examples: EDITOR sets your default terminal editor (nvim, vim, code, etc). LANG sets locale/language encoding.",
+        "values": [
+            "export EDITOR=nvim",
+            "export LANG=en_US.UTF-8"
+        ]
+    }
+}
