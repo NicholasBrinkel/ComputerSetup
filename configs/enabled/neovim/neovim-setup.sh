@@ -6,6 +6,10 @@ CONFIG_DIR="${SCRIPT_DIR}"
 
 mkdir -p ~/.config/nvim
 
-cp -f "${CONFIG_DIR}/files/init.lua" ~/.config/nvim/init.lua
+for file in "${CONFIG_DIR}"/files/*.lua; do
+    [[ -f "$file" ]] || continue
+    filename=$(basename "$file")
+    cp -f "$file" ~/.config/nvim/"$filename"
+done
 
 echo "Neovim config synced"

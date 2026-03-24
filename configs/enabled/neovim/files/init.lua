@@ -14,9 +14,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
-
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+vim.opt.rtp:prepend(vim.fn.stdpath("config"))
 
 require("lazy").setup({
   spec = {
@@ -25,6 +23,7 @@ require("lazy").setup({
       dependencies = {
         'nvim-lua/plenary.nvim',
         { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        { 'nvim-telescope/telescope-file-browser.nvim' },
       }
     },
     { "nvim-tree/nvim-web-devicons" },
@@ -81,6 +80,22 @@ require("lazy").setup({
       end,
     },
     {
+      "folke/which-key.nvim",
+      event = "VeryLazy",
+      opts = {
+        delay = 0,
+      },
+      keys = {
+        {
+          "<leader>?",
+          function()
+            require("which-key").show({ global = false })
+          end,
+          desc = "Buffer Local Keymaps (which-key)",
+        },
+      },
+    },
+    {
       "folke/lazydev.nvim",
       ft = "lua",
       config = function()
@@ -105,14 +120,5 @@ require("lazy").setup({
   checker = { enabled = true },
 })
 
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-vim.opt.smartindent = true
-vim.opt.wrap = false
-vim.opt.scrolloff = 8
-
-vim.keymap.set("n", "<leader>w", ":w<CR>")
-vim.keymap.set("n", "<leader>q", ":q<CR>")
+vim.cmd("source " .. vim.fn.stdpath("config") .. "/settings.lua")
+vim.cmd("source " .. vim.fn.stdpath("config") .. "/keymaps.lua")

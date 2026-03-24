@@ -10,9 +10,10 @@ Usage: setup <command>
 Commands:
     add <input>     Add a config from user input
     config <name>   Create a new app config
-    sync           Sync all configs (install brew apps, apply system settings, update ~/.computer-setup)
-    test           Run all tests
-    help           Show this help message
+    config remove <appname>  Remove an app config's items (e.g., setup config remove neovim)
+    sync            Sync all configs (install brew apps, apply system settings, update ~/.computer-setup)
+    test            Run all tests
+    help            Show this help message
 
 EOF
 }
@@ -41,7 +42,14 @@ case "${1:-}" in
         "${SCRIPT_DIR}/add.sh" "${2:-}"
         ;;
     config)
-        "${SCRIPT_DIR}/configs/config.sh" "${2:-}"
+        case "${2:-}" in
+            remove)
+                "${SCRIPT_DIR}/scripts/remove-unused-configs.sh" "${3:-}"
+                ;;
+            *)
+                "${SCRIPT_DIR}/configs/config.sh" "${2:-}"
+                ;;
+        esac
         ;;
     sync|"")
         run_sync
